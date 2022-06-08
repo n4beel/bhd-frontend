@@ -30,6 +30,8 @@ import Presentation from "layouts/pages/presentation";
 import routes from "routes";
 import Home from "pages/Home";
 import CreateReport from "pages/CreateReport";
+import Reports from "pages/Reports";
+import ReportDetails from "pages/ReportDetails";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -58,10 +60,12 @@ export default function App() {
       <CssBaseline />
       <Routes>
         {getRoutes(routes)}
-        <Route key="home" path="/" element={<Home />} />
-        <Route key="create-report" path="/create-report" element={<CreateReport />} />
-        <Route key="presentation" path="/presentation" element={<Presentation />} />
-        <Route key="default" path="*" element={<Navigate to="/" />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/reports/:id" element={<ReportDetails />} />
+        <Route path="/create-report" element={<CreateReport />} />
+        <Route path="/presentation" element={<Presentation />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </ThemeProvider>
   );

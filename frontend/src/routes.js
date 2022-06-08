@@ -274,7 +274,7 @@ const routes = [
   {
     name: "reports",
     icon: <SummarizeIcon />,
-    route: "/pages/landing-pages/about-us",
+    route: "/pages/reports",
   },
   {
     name: "dashboard",

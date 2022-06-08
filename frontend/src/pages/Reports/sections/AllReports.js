@@ -20,18 +20,21 @@ import Grid from "@mui/material/Grid";
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
+// import MKButton from "components/MKButton";
+// import Typography from "@mui/material/Typography";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 // Home page components
 // import ExampleCard from "pages/Home/components/ExampleCard";
 // Material Kit 2 React examples
 import ReportCard from "examples/Cards/ReportCard";
 import { formatAddress } from "utils";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const data = {
-  title: "Top Reports",
-  description: "Following are some top reports for voting.",
+  title: "Reports",
+  description: "Following are the reports.",
   items: [
     {
       name: "Registered users contact information disclosure on salesforce lightning endpoint https://disposal.gsa.gov",
@@ -106,8 +109,11 @@ const data = {
   ],
 };
 
-function Reports() {
-  const navigate = useNavigate();
+function AllReports() {
+  const [page, setPage] = useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   return (
     <MKBox component="section" my={6} py={6}>
@@ -151,13 +157,13 @@ function Reports() {
           flexDirection="column"
           sx={{ mx: "auto", textAlign: "center" }}
         >
-          <MKButton onClick={() => navigate("reports")} color="info">
-            view more
-          </MKButton>
+          <Stack spacing={2}>
+            <Pagination count={10} page={page} onChange={handleChange} />
+          </Stack>
         </Grid>
       </Container>
     </MKBox>
   );
 }
 
-export default Reports;
+export default AllReports;

@@ -32,7 +32,9 @@ function ReportCard({ name, position, description, votes }) {
   return (
     <Card sx={{ py: 1, px: 3, display: "flex", flexDirection: "row", alignItems: "center" }}>
       <MKBox
-        style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
         pt={{ xs: 1, lg: 2.5 }}
         pb={2.5}
         pr={4}
@@ -46,7 +48,7 @@ function ReportCard({ name, position, description, votes }) {
       </MKBox>
 
       <MKBox pt={{ xs: 1, lg: 2.5 }} pb={2.5} pr={4} pl={{ xs: 4, lg: 1 }} lineHeight={1}>
-        <Link to="/">
+        <Link to="reports/1">
           <MKTypography variant="h5">{name}</MKTypography>
         </Link>
         <MKTypography variant="h6" color={position.color} mb={1}>
