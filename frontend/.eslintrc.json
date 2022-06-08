@@ -19,6 +19,8 @@
         "endOfLine": "auto"
       }
     ],
+    "no-nested-ternary": "off",
+    "react/no-array-index-key": "off",
     "react/forbid-prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

@@ -28,6 +28,8 @@ import Presentation from "layouts/pages/presentation";
 
 // Material Kit 2 React routes
 import routes from "routes";
+import Home from "pages/Home";
+import CreateReport from "pages/CreateReport";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -39,13 +41,13 @@ export default function App() {
   }, [pathname]);
 
   const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
+    allRoutes.map((route, index) => {
       if (route.collapse) {
         return getRoutes(route.collapse);
       }
 
       if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
+        return <Route exact path={route.route} element={route.component} key={index} />;
       }
 
       return null;
@@ -56,8 +58,10 @@ export default function App() {
       <CssBaseline />
       <Routes>
         {getRoutes(routes)}
-        <Route path="/presentation" element={<Presentation />} />
-        <Route path="*" element={<Navigate to="/presentation" />} />
+        <Route key="home" path="/" element={<Home />} />
+        <Route key="create-report" path="/create-report" element={<CreateReport />} />
+        <Route key="presentation" path="/presentation" element={<Presentation />} />
+        <Route key="default" path="*" element={<Navigate to="/" />} />
       </Routes>
     </ThemeProvider>
   );

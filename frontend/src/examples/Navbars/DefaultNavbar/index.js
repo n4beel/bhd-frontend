@@ -43,7 +43,7 @@ import DefaultNavbarMobile from "examples/Navbars/DefaultNavbar/DefaultNavbarMob
 // Material Kit 2 React base styles
 import breakpoints from "assets/theme/base/breakpoints";
 
-function DefaultNavbar({ brand, routes, transparent, light, action, sticky, relative, center }) {
+function DefaultNavbar({ brand, routes, transparent, light, sticky, relative, center }) {
   const [dropdown, setDropdown] = useState("");
   const [dropdownEl, setDropdownEl] = useState("");
   const [dropdownName, setDropdownName] = useState("");
@@ -489,38 +489,17 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
             {renderNavbarItems}
           </MKBox>
           <MKBox ml={{ xs: "auto", lg: 0 }}>
-            {action &&
-              (action.type === "internal" ? (
-                <MKButton
-                  component={Link}
-                  to={action.route}
-                  variant={
-                    action.color === "white" || action.color === "default"
-                      ? "contained"
-                      : "gradient"
-                  }
-                  color={action.color ? action.color : "info"}
-                  size="small"
-                >
-                  {action.label}
-                </MKButton>
-              ) : (
-                <MKButton
-                  component="a"
-                  href={action.route}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant={
-                    action.color === "white" || action.color === "default"
-                      ? "contained"
-                      : "gradient"
-                  }
-                  color={action.color ? action.color : "info"}
-                  size="small"
-                >
-                  {action.label}
-                </MKButton>
-              ))}
+            <MKButton
+              component="button"
+              onClick={() => {
+                console.log("connect wallet");
+              }}
+              variant="gradient"
+              color="info"
+              size="small"
+            >
+              connect wallet
+            </MKButton>
           </MKBox>
           <MKBox
             display={{ xs: "inline-block", lg: "none" }}
@@ -551,10 +530,10 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
 
 // Setting default values for the props of DefaultNavbar
 DefaultNavbar.defaultProps = {
-  brand: "Material Kit 2",
+  brand: "HackerDAO",
   transparent: false,
   light: false,
-  action: false,
+  // action: false,
   sticky: false,
   relative: false,
   center: false,
@@ -566,26 +545,26 @@ DefaultNavbar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
   transparent: PropTypes.bool,
   light: PropTypes.bool,
-  action: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      type: PropTypes.oneOf(["external", "internal"]).isRequired,
-      route: PropTypes.string.isRequired,
-      color: PropTypes.oneOf([
-        "primary",
-        "secondary",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "dark",
-        "light",
-        "default",
-        "white",
-      ]),
-      label: PropTypes.string.isRequired,
-    }),
-  ]),
+  // action: PropTypes.oneOfType([
+  //   PropTypes.bool,
+  //   PropTypes.shape({
+  //     type: PropTypes.oneOf(["external", "internal", "action"]).isRequired,
+  //     route: PropTypes.string,
+  //     color: PropTypes.oneOf([
+  //       "primary",
+  //       "secondary",
+  //       "info",
+  //       "success",
+  //       "warning",
+  //       "error",
+  //       "dark",
+  //       "light",
+  //       "default",
+  //       "white",
+  //     ]),
+  //     label: PropTypes.string.isRequired,
+  //   }),
+  // ]),
   sticky: PropTypes.bool,
   relative: PropTypes.bool,
   center: PropTypes.bool,

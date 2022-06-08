@@ -1,0 +1,8 @@
+.autocomplete-input .MuiOutlinedInput-root {
+    padding: 6px !important;
+}
+
+.md-helper {
+    line-height: 1.5 !important;
+    margin-bottom: 12px !important;
+}

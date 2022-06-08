@@ -40,7 +40,9 @@ Coded by www.creative-tim.com
 import Icon from "@mui/material/Icon";
 
 // @mui icons
-import GitHubIcon from "@mui/icons-material/GitHub";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 
 // Pages
 import AboutUs from "layouts/pages/landing-pages/about-us";
@@ -265,9 +267,19 @@ const routes = [
     ],
   },
   {
-    name: "github",
-    icon: <GitHubIcon />,
-    href: "https://www.github.com/creativetimofficial/material-kit-react",
+    name: "staking",
+    icon: <AccountBalanceIcon />,
+    route: "/pages/landing-pages/about-us",
+  },
+  {
+    name: "reports",
+    icon: <SummarizeIcon />,
+    route: "/pages/landing-pages/about-us",
+  },
+  {
+    name: "dashboard",
+    icon: <AccountBoxIcon />,
+    route: "/pages/landing-pages/about-us",
   },
 ];
 
