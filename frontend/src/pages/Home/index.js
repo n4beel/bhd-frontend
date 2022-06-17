@@ -72,10 +72,10 @@ function Home() {
                 },
               })}
             >
-              HackerDAO
+              Block Hacker DAO
             </MKTypography>
             <MKTypography variant="body1" color="white" opacity={0.8} mt={1} mb={3}>
-              Platform for promoting and incentivizing White Hat Hacking and Bounty Hunting
+              DAO for promoting and incentivizing White Hat Hacking and Bounty Hunting on Web3.
             </MKTypography>
             <MKButton color="default" sx={{ color: ({ palette: { dark } }) => dark.main }}>
               connect wallet

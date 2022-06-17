@@ -530,7 +530,7 @@ function DefaultNavbar({ brand, routes, transparent, light, sticky, relative, ce
 
 // Setting default values for the props of DefaultNavbar
 DefaultNavbar.defaultProps = {
-  brand: "HackerDAO",
+  brand: "Block Hacker DAO",
   transparent: false,
   light: false,
   // action: false,
