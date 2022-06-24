@@ -4,7 +4,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Neo4jConfig } from './neo4j/neo4j-config.interface';
 import { Neo4jModule } from './neo4j/neo4j.module';
-import { Neo4jService } from './neo4j/neo4j.service';
+import { UserModule } from './user/user.module';
+import { OrganizationModule } from './organization/organization.module';
+import { ReportProposalModule } from './report-proposal/report-proposal.module';
+import { AuthModule } from './auth/auth.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -21,6 +25,11 @@ import { Neo4jService } from './neo4j/neo4j.service';
         database: configService.get('NEO4J_DATABASE'),
       }),
     }),
+    UserModule,
+    OrganizationModule,
+    ReportProposalModule,
+    AuthModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

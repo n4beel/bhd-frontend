@@ -6,7 +6,9 @@ import { NEO4J_CONFIG, NEO4J_DRIVER } from './neo4j.constants';
 import { createDriver } from './neo4j.util';
 import { Neo4jTransactionInterceptor } from './neo4j-transaction.interceptor';
 
-@Module({})
+@Module({
+  providers: [],
+})
 export class Neo4jModule {
   static forRoot(config: Neo4jConfig): DynamicModule {
     return {
