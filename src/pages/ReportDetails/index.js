@@ -23,7 +23,7 @@ import MKBox from "components/MKBox";
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 
 // ReportDetails page sections
-import Profile from "pages/ReportDetails/sections/Profile";
+import Report from "pages/ReportDetails/sections/Report";
 import Footer from "pages/ReportDetails/sections/Footer";
 
 // Routes
@@ -31,8 +31,10 @@ import routes from "routes";
 
 // Images
 import bgImage from "assets/images/city-profile.jpg";
+import { useLocation } from "react-router-dom";
 
 function ReportDetails() {
+  const { state } = useLocation();
   return (
     <>
       <DefaultNavbar
@@ -73,7 +75,7 @@ function ReportDetails() {
             boxShadow: ({ boxShadows: { xxl } }) => xxl,
           }}
         >
-          <Profile />
+          <Report {...state} />
         </Card>
         <Footer />
       </MKBox>

@@ -35,9 +35,18 @@ import routes from "routes";
 import footerRoutes from "footer.routes";
 
 // Images
-import bgImage from "assets/images/bg-presentation.jpg";
+import bgImage from "assets/images/bg-presentation-1.jpeg";
+
+// wagmi integration
+import { useAccount, useConnect } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
 
 function Home() {
+  const { data: account } = useAccount();
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
   return (
     <>
       <DefaultNavbar routes={routes} sticky />
@@ -77,9 +86,15 @@ function Home() {
             <MKTypography variant="body1" color="white" opacity={0.8} mt={1} mb={3}>
               DAO for promoting and incentivizing White Hat Hacking and Bounty Hunting on Web3.
             </MKTypography>
-            <MKButton color="default" sx={{ color: ({ palette: { dark } }) => dark.main }}>
-              connect wallet
-            </MKButton>
+            {!account && (
+              <MKButton
+                onClick={connect}
+                color="default"
+                sx={{ color: ({ palette: { dark } }) => dark.main }}
+              >
+                connect wallet
+              </MKButton>
+            )}
           </Grid>
         </Container>
       </MKBox>

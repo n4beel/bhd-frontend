@@ -13,6 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import { useEffect, useState } from "react";
+
 // @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -26,88 +28,25 @@ import MKButton from "components/MKButton";
 // import ExampleCard from "pages/Home/components/ExampleCard";
 // Material Kit 2 React examples
 import ReportCard from "examples/Cards/ReportCard";
-import { formatAddress } from "utils";
+import { getData } from "utils";
 import { useNavigate } from "react-router-dom";
+import { SERVER } from "../../../constants";
 
 const data = {
   title: "Top Reports",
   description: "Following are some top reports for voting.",
-  items: [
-    {
-      name: "Registered users contact information disclosure on salesforce lightning endpoint https://disposal.gsa.gov",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 10,
-    },
-    {
-      name: "Features",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 14,
-    },
-    {
-      name: "Pricing",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 8,
-    },
-    {
-      name: "FAQ",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 1,
-    },
-    {
-      name: "Blog Posts",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 11,
-    },
-    {
-      name: "Testimonials",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 11,
-    },
-    {
-      name: "Teams",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 6,
-    },
-    {
-      name: "Stats",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 3,
-    },
-    {
-      name: "Call to Actions",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 8,
-    },
-    {
-      name: "Applications",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 6,
-    },
-  ],
 };
 
 function Reports() {
   const navigate = useNavigate();
+  const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getData(`${SERVER}/report?page=1&limit=10`);
+      setReports([...res.result]);
+    })();
+  }, []);
 
   return (
     <MKBox component="section" my={6} py={6}>
@@ -125,17 +64,12 @@ function Reports() {
           </Grid>
           <Grid item xs={12} lg={9}>
             <Grid container spacing={3}>
-              {data.items.map(({ image, name, votes, tag, priority, submittedBy }) => (
-                <Grid item xs={12} key={name}>
-                  <ReportCard
-                    image={image}
-                    name={name}
-                    votes={votes}
-                    position={{ color: "info", label: `${tag} | ${priority}` }}
-                    description={`By ${formatAddress(submittedBy)}`}
-                  />
-                </Grid>
-              ))}
+              {reports.length > 0 &&
+                reports.map((report) => (
+                  <Grid item xs={12} key={report.id}>
+                    <ReportCard {...report} />
+                  </Grid>
+                ))}
             </Grid>
           </Grid>
         </Grid>

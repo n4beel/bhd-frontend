@@ -30,7 +30,19 @@
         "custom": "ignore"
       }
     ],
-    "react/jsx-curly-spacing": [2, "never"]
+    "react/jsx-curly-spacing": [2, "never"],
+    "import/no-unresolved": "off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
+    "arrow-body-style": "off",
+    "import/no-useless-path-segments": "off",
+    "import/order": "off",
+    "jsx-a11y/alt-text": "off",
+    "no-unused-vars": "off",
+    "no-use-before-define": "off",
+    "no-shadow": "off",
+    "radix": "off",
+    "no-underscore-dangle": "off"
   },
   "settings": { "import/resolver": { "node": { "paths": ["src"] } } }
 }

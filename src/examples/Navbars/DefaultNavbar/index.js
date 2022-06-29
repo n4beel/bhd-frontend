@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import { Fragment, useState, useEffect } from "react";
 
 // react-router components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -40,10 +40,20 @@ import MKButton from "components/MKButton";
 import DefaultNavbarDropdown from "examples/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "examples/Navbars/DefaultNavbar/DefaultNavbarMobile";
 
+import useCurrentPath from "hooks/useCurrentPath";
 // Material Kit 2 React base styles
 import breakpoints from "assets/theme/base/breakpoints";
 
+// wagmi integration
+import { useAccount, useConnect, useEnsName } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { formatAddress, postData } from "utils";
+import AccountAddress from "./AccountAddress";
+import { SERVER } from "../../../constants";
+
 function DefaultNavbar({ brand, routes, transparent, light, sticky, relative, center }) {
+  const navigate = useNavigate();
+  const currentPath = useCurrentPath();
   const [dropdown, setDropdown] = useState("");
   const [dropdownEl, setDropdownEl] = useState("");
   const [dropdownName, setDropdownName] = useState("");
@@ -55,6 +65,13 @@ function DefaultNavbar({ brand, routes, transparent, light, sticky, relative, ce
   const [mobileView, setMobileView] = useState(false);
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);
+  const { data: account } = useAccount();
+  const { data: ensName } = useEnsName({ address: account?.address });
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
+  let initial = true;
 
   useEffect(() => {
     // A function that sets the display state for the DefaultNavbarMobile.
@@ -80,6 +97,27 @@ function DefaultNavbar({ brand, routes, transparent, light, sticky, relative, ce
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", displayMobileNavbar);
   }, []);
+
+  useEffect(() => {
+    if (account?.address && initial) {
+      (async () => {
+        try {
+          const res = await postData(`${SERVER}/user/isInitial`, {
+            address: account.address,
+          });
+          if (res.status !== 200 && currentPath !== "/initial") {
+            // console.log(currentPath);
+            navigate("initial");
+            return;
+          }
+          localStorage.setItem("user", JSON.stringify(res.result));
+          initial = false;
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+  }, [account]);
 
   const renderNavbarItems = routes.map(({ name, icon, href, route, collapse }) => (
     <DefaultNavbarDropdown
@@ -489,17 +527,19 @@ function DefaultNavbar({ brand, routes, transparent, light, sticky, relative, ce
             {renderNavbarItems}
           </MKBox>
           <MKBox ml={{ xs: "auto", lg: 0 }}>
-            <MKButton
-              component="button"
-              onClick={() => {
-                console.log("connect wallet");
-              }}
-              variant="gradient"
-              color="info"
-              size="small"
-            >
-              connect wallet
-            </MKButton>
+            {account ? (
+              <AccountAddress address={ensName ?? formatAddress(account.address)} />
+            ) : (
+              <MKButton
+                component="button"
+                onClick={connect}
+                variant="gradient"
+                color="info"
+                size="small"
+              >
+                connect wallet
+              </MKButton>
+            )}
           </MKBox>
           <MKBox
             display={{ xs: "inline-block", lg: "none" }}

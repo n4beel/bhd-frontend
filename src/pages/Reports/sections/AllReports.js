@@ -29,91 +29,36 @@ import Stack from "@mui/material/Stack";
 // import ExampleCard from "pages/Home/components/ExampleCard";
 // Material Kit 2 React examples
 import ReportCard from "examples/Cards/ReportCard";
-import { formatAddress } from "utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getData } from "utils";
+import { SERVER } from "../../../constants";
+
+const itemsOnPage = 10;
 
 const data = {
   title: "Reports",
   description: "Following are the reports.",
-  items: [
-    {
-      name: "Registered users contact information disclosure on salesforce lightning endpoint https://disposal.gsa.gov",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 10,
-    },
-    {
-      name: "Features",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 14,
-    },
-    {
-      name: "Pricing",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 8,
-    },
-    {
-      name: "FAQ",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 1,
-    },
-    {
-      name: "Blog Posts",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 11,
-    },
-    {
-      name: "Testimonials",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 11,
-    },
-    {
-      name: "Teams",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 6,
-    },
-    {
-      name: "Stats",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 3,
-    },
-    {
-      name: "Call to Actions",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 8,
-    },
-    {
-      name: "Applications",
-      tag: "Resolved",
-      priority: "High",
-      submittedBy: "0xadd48e4a9653ce304e846C58883ccB3809E1B5A7",
-      votes: 6,
-    },
-  ],
 };
 
 function AllReports() {
   const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
+  const [reports, setReports] = useState([]);
+
+  const getReports = async (pageNum) => {
+    const res = await getData(`${SERVER}/report?page=${pageNum}&limit=${itemsOnPage}`);
+    setReports([...res.result]);
+    setPageCount(Math.ceil(res.totalReports / itemsOnPage));
+  };
+
   const handleChange = (event, value) => {
     setPage(value);
+    getReports(value);
   };
+
+  useEffect(() => {
+    getReports(1);
+  }, []);
 
   return (
     <MKBox component="section" my={6} py={6}>
@@ -131,17 +76,12 @@ function AllReports() {
           </Grid>
           <Grid item xs={12} lg={9}>
             <Grid container spacing={3}>
-              {data.items.map(({ image, name, votes, tag, priority, submittedBy }) => (
-                <Grid item xs={12} key={name}>
-                  <ReportCard
-                    image={image}
-                    name={name}
-                    votes={votes}
-                    position={{ color: "info", label: `${tag} | ${priority}` }}
-                    description={`By ${formatAddress(submittedBy)}`}
-                  />
-                </Grid>
-              ))}
+              {reports.length > 0 &&
+                reports.map((report) => (
+                  <Grid item xs={12} key={report.id}>
+                    <ReportCard {...report} />
+                  </Grid>
+                ))}
             </Grid>
           </Grid>
         </Grid>
@@ -158,7 +98,7 @@ function AllReports() {
           sx={{ mx: "auto", textAlign: "center" }}
         >
           <Stack spacing={2}>
-            <Pagination count={10} page={page} onChange={handleChange} />
+            <Pagination count={pageCount} page={page} onChange={handleChange} />
           </Stack>
         </Grid>
       </Container>

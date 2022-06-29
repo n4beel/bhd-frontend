@@ -16,8 +16,13 @@ Coded by www.creative-tim.com
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
+
 import App from "./App";
 import "./index.css";
+
+TimeAgo.addDefaultLocale(en);
 
 ReactDOM.render(
   <BrowserRouter>

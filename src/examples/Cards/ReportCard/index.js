@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -27,8 +27,26 @@ import ChangeHistorySharpIcon from "@mui/icons-material/ChangeHistorySharp";
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
+import { formatAddress } from "utils";
 
-function ReportCard({ name, position, description, votes }) {
+function ReportCard({
+  votes,
+  title,
+  status,
+  severity,
+  proposerAddress,
+  proposerId,
+  proposerName,
+  impact,
+  asset_type: assetType,
+  description,
+  created_at: createdAt,
+  id,
+  asset,
+  issues,
+}) {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ py: 1, px: 3, display: "flex", flexDirection: "row", alignItems: "center" }}>
       <MKBox
@@ -44,43 +62,83 @@ function ReportCard({ name, position, description, votes }) {
         <IconButton aria-label="vote">
           <ChangeHistorySharpIcon />
         </IconButton>
-        {votes}
+        {votes || 0}
       </MKBox>
 
       <MKBox pt={{ xs: 1, lg: 2.5 }} pb={2.5} pr={4} pl={{ xs: 4, lg: 1 }} lineHeight={1}>
-        <Link to="reports/1">
-          <MKTypography variant="h5">{name}</MKTypography>
-        </Link>
-        <MKTypography variant="h6" color={position.color} mb={1}>
-          {position.label}
+        {/* <Link to="report-details"> */}
+        <MKTypography
+          style={{
+            cursor: "pointer",
+          }}
+          variant="h5"
+          onClick={() =>
+            navigate("report-details", {
+              state: {
+                severity,
+                impact,
+                assetType,
+                description,
+                createdAt,
+                id,
+                asset,
+                title,
+                issues,
+                status,
+                proposerAddress,
+                proposerId,
+                proposerName,
+                votes,
+              },
+            })
+          }
+        >
+          {title}
+        </MKTypography>
+        {/* </Link> */}
+        <MKTypography variant="h6" color="info" mb={1}>
+          {`${status} | ${severity}`}
         </MKTypography>
         <MKTypography variant="body2" color="text">
-          {description}
+          {`By ${formatAddress(proposerAddress || "0x00000000000000")}`}
         </MKTypography>
       </MKBox>
     </Card>
   );
 }
 
+ReportCard.defaultProps = {
+  votes: "",
+  title: "",
+  status: "",
+  severity: "",
+  proposerAddress: "",
+  proposerId: "",
+  proposerName: "",
+  impact: "",
+  asset_type: "",
+  description: "",
+  created_at: "",
+  id: "",
+  asset: "",
+  issues: [],
+};
 // Typechecking props for the ReportCard
 ReportCard.propTypes = {
-  // image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  position: PropTypes.shape({
-    color: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "dark",
-      "light",
-    ]),
-    label: PropTypes.string.isRequired,
-  }).isRequired,
-  description: PropTypes.string.isRequired,
-  votes: PropTypes.number.isRequired,
+  votes: PropTypes.any,
+  title: PropTypes.any,
+  status: PropTypes.any,
+  severity: PropTypes.any,
+  proposerAddress: PropTypes.any,
+  proposerId: PropTypes.any,
+  proposerName: PropTypes.any,
+  impact: PropTypes.any,
+  asset_type: PropTypes.any,
+  description: PropTypes.any,
+  created_at: PropTypes.any,
+  id: PropTypes.any,
+  asset: PropTypes.any,
+  issues: PropTypes.any,
 };
 
 export default ReportCard;

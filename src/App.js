@@ -33,6 +33,16 @@ import CreateReport from "pages/CreateReport";
 import Reports from "pages/Reports";
 import ReportDetails from "pages/ReportDetails";
 
+// wagmi integration
+import { WagmiConfig, createClient } from "wagmi";
+import Initial from "pages/Initial";
+import { Toaster } from "react-hot-toast";
+import Staking from "pages/Staking";
+
+const client = createClient({
+  autoConnect: true,
+});
+
 export default function App() {
   const { pathname } = useLocation();
 
@@ -58,15 +68,20 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="/" element={<Home />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/reports/:id" element={<ReportDetails />} />
-        <Route path="/create-report" element={<CreateReport />} />
-        <Route path="/presentation" element={<Presentation />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <Toaster position="top-right" reverseOrder={false} />
+      <WagmiConfig client={client}>
+        <Routes>
+          {getRoutes(routes)}
+          <Route path="/" element={<Home />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/report-details" element={<ReportDetails />} />
+          <Route path="/create-report" element={<CreateReport />} />
+          <Route path="/presentation" element={<Presentation />} />
+          <Route path="/initial" element={<Initial />} />
+          <Route path="/staking" element={<Staking />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </WagmiConfig>
     </ThemeProvider>
   );
 }
